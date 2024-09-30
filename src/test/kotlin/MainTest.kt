@@ -1,6 +1,9 @@
-import me.bottdev.*
+import me.bottdev.bottcore.components.Service
+import me.bottdev.bottcore.program
 
 class CoreService : Service() {
+
+    private var counter = 0;
 
     override fun onStart() {
        // println("Core service started!")
@@ -11,12 +14,13 @@ class CoreService : Service() {
     }
 
     fun count() {
-        (0..5).forEach { println(it) }
+        counter++
+        println(counter)
     }
 
 }
 
-class AnotherService(private val coreService: CoreService) : Service() {
+class AnotherService(val coreService: CoreService) : Service() {
 
     override fun onStart() {
         //("Another service started!")
@@ -37,10 +41,39 @@ val programManager = program {
 
 fun main() {
 
-    val coreService = programManager.get<CoreService>()
-    val anotherService = programManager.get<AnotherService>()
-
     programManager.startAllComponents()
 
-    programManager.stopAllComponents()
+    while (true) {
+
+        var amount = 1
+        val input = readlnOrNull()?.trim()?.let {
+            if (it.contains("-")) {
+                val parts = it.split("-")
+                amount = parts.last().toIntOrNull() ?: 1
+                return@let parts.first()
+            }
+            it
+        }
+
+        if (input.isNullOrEmpty()) {
+            println("Empty input, try again.")
+            continue
+        }
+
+        when (input) {
+            "count" -> {
+                val coreService = programManager.get<AnotherService>().coreService
+                repeat(amount) {
+                    coreService.count()
+                }
+            }
+            "exit" -> {
+                println("Exiting program.")
+                programManager.stopAllComponents()
+                break
+            }
+            else -> println("Unknown command")
+        }
+    }
+
 }

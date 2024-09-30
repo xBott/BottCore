@@ -1,4 +1,6 @@
-package me.bottdev
+package me.bottdev.bottcore.components
+
+import me.bottdev.bottcore.ProgramComponent
 
 abstract class Service : ProgramComponent() {
 

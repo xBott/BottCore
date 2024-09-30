@@ -1,4 +1,4 @@
-package me.bottdev
+package me.bottdev.bottcore
 
 enum class ComponentStatus {
     ENABLING,

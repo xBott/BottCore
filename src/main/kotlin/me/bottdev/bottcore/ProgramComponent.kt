@@ -1,10 +1,10 @@
-package me.bottdev
+package me.bottdev.bottcore
 
 import org.slf4j.LoggerFactory
 
 open class ProgramComponent {
 
-    val logger = LoggerFactory.getLogger(this::class.simpleName)
+    val logger = LoggerFactory.getLogger(this::class.simpleName)!!
 
     private var _status = ComponentStatus.DISABLED
 
